@@ -3,7 +3,7 @@
 int main(int argc,char *argv[])
 {
     if (argc > 1)
-        while (1) {
+        for(;;) {
             int i;
             
             for(i = 1; i < argc - 1; ++i)
@@ -12,7 +12,7 @@ int main(int argc,char *argv[])
             printf("%s\n",argv[argc-1]);
         }
     else
-        while (1)
-            printf("y\n");
+        for(;;)
+            fwrite("y\n",sizeof(char),2,stdout);
     return 0;
 }
