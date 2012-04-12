@@ -65,3 +65,6 @@ $(DESTDIR)$(includedir)/%: include/%
 
 $(DESTDIR)$(bindir)/%: %
 	install -D -m 755 $< $@
+
+test: tests/test.c $(LIBRARY)
+	$(CC) $(CFLAGS) $(INC) $(LIB) -o $@ $< $(LDFLAGS)
