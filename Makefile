@@ -1,9 +1,6 @@
 #
 # Makefile for ycoreutils
 #
-# This is how simple every makefile should be...
-# No, I take that back - actually most should be less than half this size.
-#
 # Use config.mak to override any of the following variables.
 # Do not make changes here.
 #
@@ -33,6 +30,7 @@ LDFLAGS = -static -l$(LIB_BASE_NAME)
 INC     = -I./include
 LIB     = -Llib
 AR      = ar
+RANLIB  = ranlib
 
 -include config.mak
 
@@ -45,14 +43,16 @@ clean:
 	rm -f $(LIBRARY_OBJS)
 	rm -f $(BINARIES)
 
-$(LIBRARY): $(LIBRARY_OBJS)
+$(LIBRARY): $(LIBRARY_OBJS) $(INCLUDES)
+	rm -f $@
 	$(AR) rc $@ $^
+	$(RANLIB) $@
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
-%: src/%.o $(LIBRARY)
-	$(CC) $(LIB) -o $@ $< $(LDFLAGS)
+%: src/%.c $(LIBRARY)
+	$(CC) $(CFLAGS) $(INC) $(LIB) -o $@ $< $(LDFLAGS)
 
 $(DESTDIR)$(libdir)/$(LIB_NAME): $(LIBRARY)
 	install -D -m 644 $< $@
