@@ -3,6 +3,27 @@
 #include "utilities.h"
 
 
+#ifndef BLOCK_SIZE
+#define BLOCK_SIZE 512
+#endif
+
+int cp(FILE *source, FILE *destination)
+{
+    char buffer[BLOCK_SIZE];
+    for(;;) {
+        size_t bytes = fread(buffer,  sizeof(char),BLOCK_SIZE,source);
+        if (bytes > 0) {
+            fwrite(buffer, sizeof(char), bytes, destination);
+        }
+        else {
+            if (ferror(source) || ferror(destination))
+                return -1;
+            else
+                return 0;
+        }
+
+    }
+}
 /*
  * Like str2int, only good for positive numbers
  * Note: This function is for internal use in
@@ -14,9 +35,9 @@ str2int_p(const char * const str)
     int acc = 0;
     int i;
     for (i = 0; str[i] != '\0'; ++i) {
-        if (str[i] > 57 || str[i] < 48)
+        if (str[i] > '9' || str[i] < '0')
             break; // not a number
-        acc = (10 * acc) + (str[i] - 48); // 48 -> 0 in ascii
+        acc = (10 * acc) + (str[i] - '0');
     }
     return acc;
 }
@@ -29,7 +50,7 @@ str2int_p(const char * const str)
 int
 str2int(const char * const str)
 {
-    if (*str == 45) { // 45 -> ascii value of "-"
+    if (*str == '-') {
         return -1 * str2int_p(str + 1);
     }
     return str2int_p(str);
