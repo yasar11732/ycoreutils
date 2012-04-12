@@ -1,0 +1,6 @@
+*.a
+*.swp
+*~
+*.o
+whoami
+yes
