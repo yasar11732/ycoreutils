@@ -1,0 +1,11 @@
+ycoreutils is coreutils clone that I write for fun, to compile
+it, create and edit config.mak to override defaults, and run
+make. To install it run "make install". But I don't recommend
+installing it yet, since it's not ready for anything, and
+I doubt it will ever be.
+
+Defaults configuration in Makefile uses musl and makes
+statically linked binaries. But of course, you can also
+link it against glibc or another C library. There is no
+rule or option for shared library and dynlinking, but
+you can also do that if you try hard enough ;)
