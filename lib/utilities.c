@@ -2,6 +2,24 @@
 #include <string.h> // memcpy
 #include "utilities.h"
 
+
+/*
+ * Like str2int, only good for positive numbers
+ * Note: This function is for internal use in
+ * library.
+ */
+int
+str2int_p(const char * const str)
+{
+    int acc = 0;
+    int i;
+    for (i = 0; str[i] != '\0'; ++i) {
+        if (str[i] > 57 || str[i] < 48)
+            break; // not a number
+        acc = (10 * acc) + (str[i] - 48); // 48 -> 0 in ascii
+    }
+    return acc;
+}
 /*
  * Kind of a atoi clone. Making my own functions makes
  * me happier, since I know for sure how my functions
@@ -11,16 +29,14 @@
 int
 str2int(const char * const str)
 {
-    int acc = 0;
-    int i;
-    for (i = 0; str[i] != '\0'; ++i)
-        acc = (10 * acc) + (str[i] - 48); // 48 -> 0 in ascii
-    return acc;
+    if (*str == 45) { // 45 -> ascii value of "-"
+        return -1 * str2int_p(str + 1);
+    }
+    return str2int_p(str);
 }
 
 /*
  * Search string for a char, and return it's position.
- * if string is NULL, return NULL
  * if chr is not in string return NULL
  */
 
@@ -28,8 +44,6 @@ char *
 strfind(char * const string,const char * const chr)
 {
     int i = 0;
-    if (string == NULL)
-        return NULL;
     while (string[i] != '\0') {
         if (string[i] == *chr)
             return &(string[i]);
