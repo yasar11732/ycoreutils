@@ -7,7 +7,8 @@
 #define BLOCK_SIZE 512
 #endif
 
-int cp(FILE *source, FILE *destination)
+int
+cp(FILE *source, FILE *destination)
 {
     char buffer[BLOCK_SIZE];
     for(;;) {
@@ -24,6 +25,7 @@ int cp(FILE *source, FILE *destination)
 
     }
 }
+
 /*
  * Like str2int, only good for positive numbers
  * Note: This function is for internal use in
@@ -41,12 +43,12 @@ str2int_p(const char * const str)
     }
     return acc;
 }
+
 /*
  * Kind of a atoi clone. Making my own functions makes
  * me happier, since I know for sure how my functions
  * are implemented. It makes me confident!
  */
-
 int
 str2int(const char * const str)
 {

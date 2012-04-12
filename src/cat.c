@@ -4,7 +4,8 @@
 #include <errno.h>
 #include "utilities.h"
 
-int main(int argc, const char *argv[])
+int
+main(int argc, const char *argv[])
 {
     if (argc == 1) { // copy stdin to stdout
         if (cp(stdin,stdout) == 0)

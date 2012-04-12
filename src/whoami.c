@@ -4,7 +4,8 @@
 #include <unistd.h> // getuid
 #include "utilities.h"
 
-int main()
+int
+main()
 {
     FILE *passwd;
     char *line = NULL;

@@ -7,7 +7,9 @@ strtoken(char * const, const char * const,char **);
 char *
 strfind(char * const string,const char * const chr);
 
-int str2int(const char * const str);
+int
+str2int(const char * const str);
 
-int cp(FILE *, FILE *);
+int
+cp(FILE *, FILE *);
 #endif

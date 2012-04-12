@@ -39,9 +39,13 @@ all: $(LIBRARY) $(BINARIES)
 install : $(DESTDIR)$(libdir)/$(LIB_NAME) $(INCLUDES:include/%=$(DESTDIR)$(includedir)/%) $(BINARIES:%=$(DESTDIR)$(bindir)/%)
 
 clean:
-	rm -f $(LIBRARY)
-	rm -f $(LIBRARY_OBJS)
-	rm -f $(BINARIES)
+	rm -fv $(LIBRARY)
+	rm -fv $(LIBRARY_OBJS)
+	rm -fv $(BINARIES)
+	rm -fv *~
+	rm -fv */*~
+	rm -fv */*.swp
+	rm -fv */.*.swp
 
 strip: $(BINARIES)
 	strip $(BINARIES)
