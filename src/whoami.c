@@ -1,4 +1,3 @@
-#define _POSIX_C_SOURCE 200809L
 #include <stdlib.h> // free
 #include <stdio.h> // FILE, printf etc.
 #include <sys/types.h> // uid_t
