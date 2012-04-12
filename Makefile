@@ -43,6 +43,9 @@ clean:
 	rm -f $(LIBRARY_OBJS)
 	rm -f $(BINARIES)
 
+strip: $(BINARIES)
+	strip $(BINARIES)
+
 $(LIBRARY): $(LIBRARY_OBJS) $(INCLUDES)
 	rm -f $@
 	$(AR) rc $@ $^
