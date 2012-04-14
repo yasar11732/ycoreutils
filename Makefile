@@ -20,7 +20,8 @@ LIBRARY_SRCS  = $(sort $(wildcard lib/*.c))
 LIBRARY_OBJS  = $(LIBRARY_SRCS:.c=.o)
 
 BINARY_SRCS  = $(sort $(wildcard src/*.c))
-BINARIES     = $(BINARY_SRCS:src/%.c=%)
+BINARY_NAMES = $(BINARY_SRCS:src/%.c=%)
+BINARIES     = $(BINARY_NAMES:%=bin/%)
 
 INCLUDES     = $(sort $(wildcard include/*.h))
 
@@ -34,9 +35,9 @@ RANLIB  = ranlib
 
 -include config.mak
 
-all: $(LIBRARY) $(BINARIES:%=bin/%)
+all: $(LIBRARY) $(BINARIES)
 
-install : $(DESTDIR)$(libdir)/$(LIB_NAME) $(INCLUDES:include/%=$(DESTDIR)$(includedir)/%) $(BINARIES:%=$(DESTDIR)$(bindir)/%)
+install : $(DESTDIR)$(libdir)/$(LIB_NAME) $(INCLUDES:include/%=$(DESTDIR)$(includedir)/%) $(BINARY_NAMES:%=$(DESTDIR)$(bindir)/%)
 
 clean:
 	rm -fv $(LIBRARY)
@@ -47,12 +48,12 @@ clean:
 	rm -fv */*.swp
 	rm -fv */.*.swp
 
-strip: $(BINARIES:%=bin/%)
-	strip $(BINARIES:%=bin/%)
+strip: $(BINARIES)
+	strip $^
 
 $(LIBRARY): $(LIBRARY_OBJS) $(INCLUDES)
 	rm -f $@
-	$(AR) rc $@ $^
+	$(AR) rc $@ $(LIBRARY_OBJS)
 	$(RANLIB) $@
 
 %.o: %.c
@@ -67,7 +68,7 @@ $(DESTDIR)$(libdir)/$(LIB_NAME): $(LIBRARY)
 $(DESTDIR)$(includedir)/%: include/%
 	install -D -m 644 $< $@
 
-$(DESTDIR)$(bindir)/%: %
+$(DESTDIR)$(bindir)/%: bin/%
 	install -D -m 755 $< $@
 
 test: tests/test.c $(LIBRARY)
