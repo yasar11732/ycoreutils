@@ -6,7 +6,11 @@ typedef struct {
 } Gstring;
 
 Gstring *gstrcat(const Gstring * const,const Gstring * const);
-Gstring *from_string(const char * const);
-char *to_string(Gstring *);
+Gstring *to_gstring(const char * const);
+char *from_gstring(Gstring *);
 void freegstring(Gstring *);
+Gstring *gstrdup(Gstring *);
+Gstring *gstrtoken(Gstring * const, const char * const , Gstring *);
+int appendstr2gstring(Gstring *,char *);
+int combinegstr(Gstring *, Gstring *);
 #endif
