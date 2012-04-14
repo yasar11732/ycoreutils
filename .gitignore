@@ -2,5 +2,4 @@
 *.swp
 *~
 *.o
-whoami
-yes
+bin/

@@ -34,7 +34,7 @@ RANLIB  = ranlib
 
 -include config.mak
 
-all: $(LIBRARY) $(BINARIES)
+all: $(LIBRARY) $(BINARIES:%=bin/%)
 
 install : $(DESTDIR)$(libdir)/$(LIB_NAME) $(INCLUDES:include/%=$(DESTDIR)$(includedir)/%) $(BINARIES:%=$(DESTDIR)$(bindir)/%)
 
@@ -47,8 +47,8 @@ clean:
 	rm -fv */*.swp
 	rm -fv */.*.swp
 
-strip: $(BINARIES)
-	strip $(BINARIES)
+strip: $(BINARIES:%=bin/%)
+	strip $(BINARIES:%=bin/%)
 
 $(LIBRARY): $(LIBRARY_OBJS) $(INCLUDES)
 	rm -f $@
@@ -58,7 +58,7 @@ $(LIBRARY): $(LIBRARY_OBJS) $(INCLUDES)
 %.o: %.c
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
-%: src/%.c $(LIBRARY)
+bin/%: src/%.c $(LIBRARY)
 	$(CC) $(CFLAGS) $(INC) $(LIB) -o $@ $< $(LDFLAGS)
 
 $(DESTDIR)$(libdir)/$(LIB_NAME): $(LIBRARY)
