@@ -4,7 +4,7 @@
 #include <string.h> // strtol
 #include <unistd.h> // getopt
 #include <errno.h> // errno :)
-#include "utilities.h" // strtoken
+#include "gstring.h" // also includes utilities
 
 // return 0 if file exists, -1 if not
 int file_exists(const char * const path)
@@ -49,39 +49,27 @@ int main(int argc, char *argv[])
 
     for (i = optind; i < argc; ++ i) {
 
-        /*
-         * Wow, hardcore suckage here...
-         */
-
         if (parent) {
-            char *rest = NULL;
-            char *path_so_far = strtoken(argv[i],"/",&rest);
-            if (*path_so_far == '\0') {
-                // path starts with "/"
-                free(path_so_far);
-                path_so_far = "/";
-            }
-
-            while(*rest != '\0') {
-                char *next_part;
-                if (file_exists(path_so_far) == -1) {
-                    if (mkdir(path_so_far, mode) == -1) {
+            Gstring rest;
+            Gstring *gargv = to_gstring(argv[i]);
+            Gstring *path_so_far = gstrtoken(gargv,"/",&rest);
+            
+            while(rest.length > 0) {
+                Gstring *next_part;
+                if (path_so_far->length > 0 && 
+                        file_exists(path_so_far->content) == -1) {
+                    if (mkdir(path_so_far->content, mode) == -1) {
                         fprintf(stderr, "%s: %s: %s",
                                 argv[0], strerror(errno), argv[i]);
                         exit(EXIT_FAILURE);
                     }
                 }
-                next_part = strtoken(rest,"/",&rest);
-                int size = strlen(path_so_far) + strlen(next_part) + 2;
-                char *buffer = malloc(sizeof(char) * size);
-                *buffer = '\0';
-                strcat(buffer,path_so_far);
-                strcat(buffer,"/");
-                strcat(buffer,next_part);
-                free (next_part);
-                free (path_so_far);
-                path_so_far = buffer;
+                next_part = gstrtoken(&rest,"/",&rest);
+                appendstr2gstring(path_so_far,"/");
+                combinegstr(path_so_far,next_part);
             }
+            freegstring (gargv);
+            freegstring (path_so_far);
         }
         
         if (mkdir(argv[i],mode) == -1) {
