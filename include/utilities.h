@@ -12,4 +12,7 @@ str2int(const char * const str);
 
 int
 cp(FILE *, FILE *);
+
+int
+file_exists(const char * const);
 #endif

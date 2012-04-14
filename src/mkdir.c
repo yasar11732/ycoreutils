@@ -4,21 +4,9 @@
 #include <string.h> // strtol
 #include <unistd.h> // getopt
 #include <errno.h> // errno :)
-#include "gstring.h" // also includes utilities
+#include "gstring.h" // gstring thingies.
+#include "utilities.h"
 
-// return 0 if file exists, -1 if not
-int file_exists(const char * const path)
-{
-    struct stat buff;
-    if (lstat(path,&buff) == 0)
-        return 0;
-    return -1;
-}
-
-/*
- * This function sucks, but it's the best I could
- * come up with
- */
 
 int main(int argc, char *argv[])
 {
@@ -48,7 +36,7 @@ int main(int argc, char *argv[])
         }
 
     for (i = optind; i < argc; ++ i) {
-
+        errno = 0;
         if (parent) {
             Gstring rest;
             Gstring *gargv = to_gstring(argv[i]);
@@ -79,7 +67,7 @@ int main(int argc, char *argv[])
                 exit(EXIT_FAILURE);
             }
         }
-        if (verbose)
+        if (verbose && errno != EEXIST)
             printf("%s created.\n",argv[i]);
     }
 
