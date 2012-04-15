@@ -1,16 +1,29 @@
 #ifndef _GSTRING_H_
 #define _GSTRING_H_
-typedef struct {
-    char *content;
-    size_t length; // excluding '\0'
-} Gstring;
 
-Gstring *gstrcat(const Gstring * const,const Gstring * const);
-Gstring *to_gstring(const char * const);
-char *from_gstring(Gstring *);
-void freegstring(Gstring *);
-Gstring *gstrdup(Gstring *);
-Gstring *gstrtoken(Gstring * const, const char * const , Gstring *);
-int appendstr2gstring(Gstring *,char *);
-int combinegstr(Gstring *, Gstring *);
+ /*
+  * String and it's length.
+  */
+struct  Gstring {
+	char *content;
+	size_t length; // excluding '\0'
+};
+
+struct Gstring *gstrcat(const struct Gstring * const,
+		const struct Gstring * const);
+
+struct Gstring *togstring(const char * const);
+
+char *fromgstring(struct Gstring *);
+
+void freegstring(struct Gstring *);
+
+struct Gstring *gstrdup(struct Gstring *);
+
+struct Gstring *gstrtoken(struct Gstring * const,
+		const char * const ,struct Gstring *);
+
+int appendstr2gstring(struct Gstring *,char *);
+
+int combinegstr(struct Gstring *, struct Gstring *);
 #endif
