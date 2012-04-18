@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 		default:
 			abort ();
 		}
-
+	// Handle other command line arguments
 	for (i = optind; i < argc; ++i) {
 		errno = 0;
 		if (parent) {
