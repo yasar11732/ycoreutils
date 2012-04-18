@@ -14,8 +14,10 @@ libdir = $(prefix)/lib
 syslibdir = /lib
 
 LIB_BASE_NAME = ycoreutils
-LIB_NAME      = lib$(LIB_BASE_NAME).a
-LIBRARY       = lib/$(LIB_NAME)
+STATIC_LIB_NAME      = lib$(LIB_BASE_NAME).a
+SHARED_LIB_NAME      = lib$(LIB_BASE_NAME).so
+STATIC_LIBRARY       = lib/$(STATIC_LIB_NAME)
+SHARED_LIBRARY       = lib/$(SHARED_LIB_NAME)
 LIBRARY_SRCS  = $(sort $(wildcard lib/*.c))
 LIBRARY_OBJS  = $(LIBRARY_SRCS:.c=.o)
 
@@ -35,7 +37,7 @@ RANLIB  = ranlib
 
 -include config.mak
 
-all: $(LIBRARY) $(BINARIES)
+all: $(SHARED_LIBRARY) $(STATIC_LIBRARY) $(BINARIES)
 
 install : $(DESTDIR)$(libdir)/$(LIB_NAME) $(INCLUDES:include/%=$(DESTDIR)$(includedir)/%) $(BINARY_NAMES:%=$(DESTDIR)$(bindir)/%)
 
@@ -51,10 +53,13 @@ clean:
 strip: $(BINARIES)
 	strip $^
 
-$(LIBRARY): $(LIBRARY_OBJS) $(INCLUDES)
+$(STATIC_LIBRARY): $(LIBRARY_OBJS) $(INCLUDES)
 	rm -f $@
 	$(AR) rc $@ $(LIBRARY_OBJS)
 	$(RANLIB) $@
+
+$(SHARED_LIBRARY): $(LIBRARY_OBJS) $(INCLUDES)
+	ld -shared $(LIBRARY_OBJS) -o $@
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
