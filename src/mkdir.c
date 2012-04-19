@@ -1,13 +1,14 @@
 #include <stdlib.h>
 #include <sys/stat.h> // mkdir
-#include <stdio.h> // perror
+#include <stdio.h>
 #include <string.h> // strtol
 #include <unistd.h> // getopt
 #include <errno.h> // errno :)
 #include "gstring.h" // gstring thingies.
 #include "utilities.h"
 
-void exit_with_error(const char const *programname, const char const *componentname) {
+void exit_with_error(const char const *programname, const char const *componentname)
+{
 	fprintf(stderr, "%s: %s: %s\n", programname, strerror(errno), componentname);
 	exit(errno);
 }
@@ -44,8 +45,7 @@ int main(int argc, char *argv[])
 		errno = 0;
 		if (parentflag) {
 			/* Important: Don't delete *gargv until while loop
-			 * finishes, rest's content is just pointer to it's
-			 * content. */
+			 * finishes, rest's content overlaps with it. */
 			struct Gstring rest;
 			struct Gstring *gargv = togstring(argv[i]);
 			struct Gstring *path_so_far = gstrtoken(gargv,"/",&rest);
