@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 		printf(argv[i]);
 	}
 
-	if (nonewlineflag)
+	if (newlineflag)
 		fwrite("\n",1,1,stdout);
 	return 0;
 }
