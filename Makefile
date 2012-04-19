@@ -64,7 +64,7 @@ $(SHARED_LIBRARY): $(LIBRARY_OBJS) $(INCLUDES)
 %.o: %.c
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
-bin/%: src/%.c $(LIBRARY)
+bin/%: src/%.c $(STATIC_LIBRARY)
 	$(CC) $(CFLAGS) $(INC) $(LIB) -o $@ $< $(LDFLAGS)
 
 $(DESTDIR)$(libdir)/$(LIB_NAME): $(LIBRARY)
