@@ -7,12 +7,6 @@
 #include "gstring.h" // gstring thingies.
 #include "utilities.h"
 
-void exit_with_error(const char const *programname, const char const *componentname)
-{
-	fprintf(stderr, "%s: %s: %s\n", programname, strerror(errno), componentname);
-	exit(errno);
-}
-
 int main(int argc, char *argv[])
 {
 	mode_t mask = umask(0);

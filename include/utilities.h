@@ -12,4 +12,6 @@ int str2int(const char * const);
 int cp(FILE *, FILE *);
 
 int file_exists(const char * const);
+
+void exit_with_error(const char const *programname, const char const *componentname);
 #endif
