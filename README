@@ -30,3 +30,5 @@ cat:
     with "-", reads stdin. This should probably changed.
 tee:
     It accept -a option, and it works I guess.
+printenv:
+    Accepts -0, and it works!
