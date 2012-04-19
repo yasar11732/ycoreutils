@@ -25,6 +25,13 @@ void translate_escapes(char * const string)
 				temps[temps_i] = '\b';
 				++s_i;
 				break;
+			case 'c':
+				goto finish_translate;
+			case 'e':
+				temps[temps_i] = 0x1b; // escape character
+				++s_i;
+				break;
+
 			case 'f':
 				temps[temps_i] = '\f';
 				++s_i;
@@ -45,6 +52,10 @@ void translate_escapes(char * const string)
 				temps[temps_i] = '\v';
 				++s_i;
 				break;
+			case '0': /* Octal value*/
+				/* Not implemented */
+			case 'x': /* Hex value*/
+				/* Not implemented */
 			default:
 				temps[temps_i] = string[s_i];
 				break;
@@ -52,6 +63,7 @@ void translate_escapes(char * const string)
 
 		else
 			temps[temps_i] = string[s_i];
+finish_translate:
 	temps[++temps_i] = '\n';
 	memcpy(string,temps,temps_i * sizeof(char));
 }
