@@ -1,6 +1,71 @@
 #include <stdlib.h> // malloc
 #include <string.h> // memcpy
 #include "utilities.h"
+
+/* Scan a string for a octal value. If second argument is a positive
+ * number, maximum of that many digits will be read. if consumed is not
+ * null, actual number of characters read will be stored there.*/
+int scan_octal(char *input, int maxdigits, int *consumed)
+{
+	int i = 0;
+	int acc = 0; // accumulator
+	if (maxdigits) {
+		while(maxdigits--) {
+			if(input[i] > '7' || input[i] < '0')
+				break;
+			acc = (8 * acc) + (input[i] - '0');
+			++i;
+		}
+	} else {
+		for(;;) {
+			if(input[i] > '7' || input[i] < '0')
+				break;
+			acc = (8 * acc) + (input[i] - '0');
+			++i;
+		}
+	}
+	if(consumed != NULL)
+		*consumed = i;
+	return acc;
+}
+
+/* Scan a string for a hex value. If second argument is a positive
+ * number, maximum of that many digits will be read. if consumed is not
+ * null, actual number of characters read will be stored there.*/
+int scan_hex(char *input, int maxdigits, int *consumed)
+{
+	int i = 0;
+	int acc = 0; // accumulator
+	if (maxdigits) {
+		while(maxdigits--) {
+			if (input[i] >= '0' && input[i] <= '9')
+				acc = (16 * acc) + (input[i] - '0');
+			else if (input[i] >= 'A' && input[i] <= 'F')
+				acc = (16 * acc) + (input[i] - 'A' + 10);
+			else if (input[i] >= 'a' && input[i] <= 'f')
+				acc = (16 * acc) + (input[i] - 'a' + 10);
+			else
+				break;
+			++i;
+		}
+	} else {
+		for(;;) {
+			if (input[i] >= '0' && input[i] <= '9')
+				acc = (16 * acc) + (input[i] - '0');
+			else if (input[i] >= 'A' && input[i] <= 'F')
+				acc = (16 * acc) + (input[i] - 'A' + 10);
+			else if (input[i] >= 'a' && input[i] <= 'f')
+				acc = (16 * acc) + (input[i] - 'a' + 10);
+			else
+				break;
+			++i;
+		}
+	}
+	if(consumed != NULL)
+		*consumed = i;
+	return acc;
+}
+
 /* Turns backslash escapes into their corresponding values */
 void translate_escapes(char * const string)
 {
@@ -53,9 +118,30 @@ void translate_escapes(char * const string)
 				++s_i;
 				break;
 			case '0': /* Octal value*/
-				/* Not implemented */
+				{
+					int num_chars_consumed = 0;
+					int value = scan_octal(string + s_i + 2, 3,&num_chars_consumed);
+					if(num_chars_consumed) {
+						temps[temps_i] = (char)value;
+						s_i = s_i + num_chars_consumed + 1;
+					} else {
+						goto d;
+					}
+				}
+				break;
 			case 'x': /* Hex value*/
-				/* Not implemented */
+				{
+					int num_chars_consumed = 0;
+					int value = scan_hex(string + s_i + 2, 2,&num_chars_consumed);
+					if(num_chars_consumed) {
+						temps[temps_i] = (char)value;
+						s_i = s_i + num_chars_consumed + 1;
+					} else {
+						goto d;
+					}
+				}
+				break;
+			d:
 			default:
 				temps[temps_i] = string[s_i];
 				break;
