@@ -28,3 +28,5 @@ cat:
     It's in asm/bin folder. Works but accepts no
     arguments. And, if an argument is "-" or starts
     with "-", reads stdin. This should probably changed.
+tee:
+    It accept -a option, and it works I guess.
