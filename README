@@ -1,11 +1,30 @@
 ycoreutils is coreutils clone that I write for fun, to compile
 it, create and edit config.mak to override defaults, and run
-make. To install it run "make install". But I don't recommend
-installing it yet, since it's not ready for anything, and
-I doubt it will ever be.
+make. This will create binaries in bin/ folder. There are also
+3 programs written in assembly. In order to compile them, first
+go to asm/lib and make and then, go to asm/ and make again. Your
+binaries will be at asm/bin
 
-Defaults configuration in Makefile uses musl and makes
+Default configuration in Makefile uses musl and makes
 statically linked binaries. But of course, you can also
-link it against glibc or another C library. There is no
-rule or option for shared library and dynlinking, but
-you can also do that if you try hard enough ;)
+link it against glibc or another C library.
+
+Commands sort of working for now:
+echo:
+    except --help and --version options, identical to
+    echo command you would expect. Seems to be working.
+mkdir:
+    supports -m, -p and -v options. Behaves like what you would
+    expect. Seems to be working.
+cp, id:
+    these two are partially working, but not quite there yet.
+whoami:
+    Works.
+yes:
+    Works.
+true, false:
+    They are in asm/bin folder. They work.
+cat:
+    It's in asm/bin folder. Works but accepts no
+    arguments. And, if an argument is "-" or starts
+    with "-", reads stdin. This should probably changed.
