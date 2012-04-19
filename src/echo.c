@@ -5,7 +5,7 @@
 #include "utilities.h"
 int main(int argc, char *argv[])
 {
-	int nonewlineflag = 0;
+	int newlineflag = 1;
 	int escapeflag = 0;
 	int option;
 	int i;
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	while ((option = getopt(argc, argv, "neE")) != -1)
 		switch (option) {
 		case 'n':
-			nonewlineflag = 1;
+			newlineflag = 0;
 			break;
 		case 'e':
 			escapeflag = 1;
@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 		printf(argv[i]);
 	}
 
-	if (!nonewlineflag)
+	if (nonewlineflag)
 		fwrite("\n",1,1,stdout);
 	return 0;
 }
