@@ -2,6 +2,7 @@
 .section .text
 .globl _start
 _start:
-	movl $SYS_EXIT, %eax
-	movl $1 , %ebx
+    xorl %eax, %eax
+    incl %eax
+    movb $1, %bl
 	int  $LINUX_SYSCALL 
