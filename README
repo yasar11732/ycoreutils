@@ -5,9 +5,38 @@ make. This will create binaries in bin/ folder. There are also
 go to asm/lib and make and then, go to asm/ and make again. Your
 binaries will be at asm/bin
 
-Default configuration in Makefile uses musl and makes
-statically linked binaries. But of course, you can also
+Default configuration in Makefile uses musl (http://www.etalabs.net/musl/)
+and makes statically linked binaries. But of course, you can also
 link it against glibc or another C library.
+
+Purpose:
+*) Posix compliance: I am trying to confirm to posix standards.
+    I try not to use gnu extensions and linux spesific system
+    calls. Yet, I don't have any idea what I am doing, or if
+    what I am doing is right. I won't mind getting feedback on this.
+*) I don't like bloat: I believe tools in coreutils should be
+    small in size and to the point. Therefore, I don't intend
+    to support all kinds of possible options or implement out
+    of the world features.
+*) I like correctness and completeness: I belive this point
+    beats previous point. While keeping things simple, I don't
+    want to left out usefull features. I only intend to left
+    out such features that noone ever use, or that are rarely
+    needed. 
+*) Personal improvement: I don't know a thing about either
+    C programming language, unix like systems and software
+    engineering. But, I will do what I can, and try to
+    learn things on the process. Therefore, this thing
+    can turn out to be something bad, or may not turn
+    out to be anything. We will see.
+*) Use musl: I think musl is cool. I don't like glibc.
+    (see second point) dietlibc (see third point) and uClibc
+    doesn't feel right for some reason. Thus, I like musl.
+    It's philosophy might even have affected me on some level.
+    Since, I like the  opportunity to use it, and if I am lucky
+    I might find and report bugs on it. 
+
+End Goal: Write a coreutils clone, that doesn't suck.
 
 Commands sort of working for now:
 echo:
