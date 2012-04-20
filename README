@@ -63,3 +63,8 @@ printenv:
     Accepts -0, and it works!
 pwd:
     Works, but supports no arguments.
+
+wc:
+    Accept -w -c -l arguments. Works just fine
+    for ascii texts, but no multibyte thingie support
+    yet. Also, doesn't accept other arguments.
